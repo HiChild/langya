@@ -1,20 +1,33 @@
 package com.soe.langya.pojo;
 
-public class User {
-    //用户主键
-    int user_id;
-    //用户手机
-    String user_phone;
-    //用户密码
-    String user_password;
-    //用户名
-    String user_name;
-    //用户邀请码
-    String user_please;
+
+import java.util.List;
+
+public class User{
+    /**
+     * 用户主键
+     */
+    private Integer user_id;
+    /**
+     * 用户手机
+     */
+    private String user_phone;
+    /**
+     * 用户密码
+     */
+    private String user_password;
+    /**
+     * 用户名
+     */
+    private String user_name;
+    /**
+     * 用户邀请码
+     */
+    private String user_please;
     /**
      * 邀请人数 默认为0
      * */
-    int user_please_num;
+    private Integer user_please_num;
     /**
      * //用户的级别（状态）
      * -1为账号不可用
@@ -22,14 +35,36 @@ public class User {
      * 1为评论员
      * 2为系统管理员
      */
-    int user_status;
+    private Integer user_status;
+
+    private boolean enabled;
+
+    private List<Role> roles;
+
+
 
     //getter and setter
-    public int getUser_id() {
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public List<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
+    }
+
+    public Integer getUser_id() {
         return user_id;
     }
 
-    public void setUser_id(int user_id) {
+    public void setUser_id(Integer user_id) {
         this.user_id = user_id;
     }
 
@@ -65,19 +100,19 @@ public class User {
         this.user_please = user_please;
     }
 
-    public int getUser_please_num() {
+    public Integer getUser_please_num() {
         return user_please_num;
     }
 
-    public void setUser_please_num(int user_please_num) {
+    public void setUser_please_num(Integer user_please_num) {
         this.user_please_num = user_please_num;
     }
 
-    public int getUser_status() {
+    public Integer getUser_status() {
         return user_status;
     }
 
-    public void setUser_status(int user_status) {
+    public void setUser_status(Integer user_status) {
         this.user_status = user_status;
     }
     //constructor
@@ -86,7 +121,7 @@ public class User {
     public User() {
     }
 
-    public User(String user_phone, String user_password, String user_name, String user_please, int user_please_num, int user_status) {
+    public User(String user_phone, String user_password, String user_name, String user_please, Integer user_please_num, Integer user_status) {
         this.user_phone = user_phone;
         this.user_password = user_password;
         this.user_name = user_name;
@@ -107,4 +142,7 @@ public class User {
                 ", user_status=" + user_status +
                 '}';
     }
+
+
+
 }

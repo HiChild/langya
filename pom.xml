@@ -66,7 +66,7 @@
             <artifactId>tomcat-embed-jasper</artifactId>
 
         </dependency>
-        <!-- mybatis -->
+        <!-- spring mybatis -->
         <dependency>
             <groupId>org.mybatis.spring.boot</groupId>
             <artifactId>mybatis-spring-boot-starter</artifactId>
@@ -82,8 +82,15 @@
             <groupId>org.xmlunit</groupId>
             <artifactId>xmlunit-core</artifactId>
         </dependency>
-
-
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.projectreactor</groupId>
+            <artifactId>reactor-core</artifactId>
+            <version>RELEASE</version>
+        </dependency>
 
     </dependencies>
 
