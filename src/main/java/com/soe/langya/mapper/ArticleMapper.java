@@ -1,6 +1,7 @@
 package com.soe.langya.mapper;
 
 import com.soe.langya.pojo.Article;
+import com.soe.langya.pojo.User;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
@@ -19,7 +20,8 @@ public interface ArticleMapper {
             "art_status as status," +
             "art_edit_time as editTime," +
             "art_main as mainContext " +
-            "from art")
+            "from art " +
+            "order by art_id desc ")
     List<Article> findAll();
 
     /**
@@ -67,7 +69,8 @@ public interface ArticleMapper {
             "art_edit_time as editTime," +
             "art_main as mainContext " +
             "from art " +
-            "where user_id = #{id}")
+            "where user_id = #{id} " +
+            "order by art_id desc ")
     public List<Article> findAllById(@Param("id") Integer userId);
 
     /**
@@ -99,7 +102,8 @@ public interface ArticleMapper {
             "art_edit_time as editTime," +
             "art_main as mainContext " +
             "from art " +
-            "where art_title like #{key}")
+            "where art_title like #{key} " +
+            "order by art_id desc ")
     public List<Article> findByKeyFromTitle(@Param("key") String key);
 
 
@@ -117,6 +121,12 @@ public interface ArticleMapper {
             "art_edit_time as editTime," +
             "art_main as mainContext " +
             "from art " +
-            "where  art_edit_time = #{time} and user_id = #{userId}")
+            "where  art_edit_time = #{time} and user_id = #{userId} " +
+            "order by art_id desc ")
     public Article findByDateAndUserId(@Param("time") String time, @Param("userId") Integer userId);
+
+    @Update({"update art set " +
+            "art_status = #{status} " +
+            "where art_id = #{id}"})
+    public Integer updateFreeze(Article article);
 }

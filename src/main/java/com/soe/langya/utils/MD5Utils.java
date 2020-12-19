@@ -1,9 +1,11 @@
 package com.soe.langya.utils;
 
+import org.springframework.stereotype.Component;
+
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-
+@Component
 public class MD5Utils {
 
     public static String getDigest(String msg)  {

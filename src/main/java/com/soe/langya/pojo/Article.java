@@ -13,6 +13,11 @@ public class Article {
     private List<Tag> tags;
     private String[] tagNames;
     private String mainContext;
+    private List<Comment> comments;
+    private Integer likeCount;
+    private Integer isLike;
+    private Integer isFavorite;
+    private String faceUrl;
 
     public Article() {
     }
@@ -25,6 +30,47 @@ public class Article {
         this.status = status;
         this.editTime = editTime;
         this.mainContext = mainContext;
+    }
+
+
+    public String getFaceUrl() {
+        return faceUrl;
+    }
+
+    public void setFaceUrl(String faceUrl) {
+        this.faceUrl = faceUrl;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public Integer getLikeCount() {
+        return likeCount;
+    }
+
+    public Integer getIsFavorite() {
+        return isFavorite;
+    }
+
+    public void setIsFavorite(Integer isFavorite) {
+        this.isFavorite = isFavorite;
+    }
+
+    public Integer getIsLike() {
+        return isLike;
+    }
+
+    public void setIsLike(Integer isLike) {
+        this.isLike = isLike;
+    }
+
+    public void setLikeCount(Integer likeCount) {
+        this.likeCount = likeCount;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
     }
 
     public String[] getTagNames() {
@@ -111,7 +157,7 @@ public class Article {
                 ", tags=" + tags +
                 ", tagNames=" + Arrays.toString(tagNames) +
                 ", mainContext='" + mainContext + '\'' +
+                ", comments=" + comments +
                 '}';
     }
-
 }

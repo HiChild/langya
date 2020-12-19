@@ -41,9 +41,40 @@ public class User{
 
     private List<Role> roles;
 
+    private String faceUrl;
+
+    private  String email;
+
+    private Integer freeze;
 
 
     //getter and setter
+
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public Integer getFreeze() {
+        return freeze;
+    }
+
+    public void setFreeze(Integer freeze) {
+        this.freeze = freeze;
+    }
+
+    public String getFaceUrl() {
+        return faceUrl;
+    }
+
+    public void setFaceUrl(String faceUrl) {
+        this.faceUrl = faceUrl;
+    }
+
     public boolean isEnabled() {
         return enabled;
     }
@@ -140,9 +171,11 @@ public class User{
                 ", user_please='" + user_please + '\'' +
                 ", user_please_num=" + user_please_num +
                 ", user_status=" + user_status +
+                ", enabled=" + enabled +
+                ", roles=" + roles +
+                ", faceUrl='" + faceUrl + '\'' +
+                ", email='" + email + '\'' +
+                ", freeze=" + freeze +
                 '}';
     }
-
-
-
 }

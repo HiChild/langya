@@ -1,5 +1,7 @@
 package com.soe.langya.pojo;
 
+import com.github.pagehelper.PageInfo;
+
 import java.util.List;
 
 /**
@@ -10,8 +12,13 @@ public class RespBean {
     private String status;
     private User data;
     private Article article;
+    private Ask ask;
     private List<Article> articles;
     private List<User> users;
+    private List<Comment> comments;
+    private List<Ask> asks;
+    private List<Ans> anss;
+
 
 
     public RespBean() {
@@ -23,6 +30,12 @@ public class RespBean {
         this.article = article;
     }
 
+    public RespBean(String msg, String status, Ask ask) {
+        this.msg = msg;
+        this.status = status;
+        this.ask = ask;
+    }
+
     public RespBean(String msg, String status, User data) {
         this.msg = msg;
         this.status = status;
@@ -32,6 +45,39 @@ public class RespBean {
     public RespBean(String msg, String status) {
         this.msg = msg;
         this.status = status;
+    }
+
+
+    public Ask getAsk() {
+        return ask;
+    }
+
+    public void setAsk(Ask ask) {
+        this.ask = ask;
+    }
+
+    public List<Ask> getAsks() {
+        return asks;
+    }
+
+    public void setAsks(List<Ask> asks) {
+        this.asks = asks;
+    }
+
+    public List<Ans> getAnss() {
+        return anss;
+    }
+
+    public void setAnss(List<Ans> anss) {
+        this.anss = anss;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
     }
 
     public List<Article> getArticles() {

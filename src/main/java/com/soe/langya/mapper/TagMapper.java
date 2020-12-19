@@ -1,10 +1,7 @@
 package com.soe.langya.mapper;
 
 import com.soe.langya.pojo.Tag;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -26,14 +23,24 @@ public interface TagMapper {
      * @param tagName tagName you should provide
      * @return A List of Tag which tagName is your provide
      */
-    @Select("select * from tag")
-    public List<Tag> findByName(String tagName);
+    @Select("select * from tag " +
+            "where tagName = #{tagName}" +
+            "order by id desc ")
+    public List<Tag> findByName(@Param("tagName") String tagName);
 
     /**
      * select tags by artId
      * @param artId artId you should provide
      * @return A List of Tag which artId is your provide
      */
-    @Select("select * from tag where artId = #{artId}")
+    @Select("select * from tag where artId = #{artId} " +
+            "order by id desc ")
     public List<Tag> findByArtId(@Param("artId") Integer artId);
+
+
+    @Delete("delete from tag where id = #{id} ")
+    public Integer delete(@Param("id") Integer id);
+
+    @Select("select * from tag ")
+    public List<Tag> findAll();
 }

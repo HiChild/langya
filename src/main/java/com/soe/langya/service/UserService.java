@@ -1,6 +1,9 @@
 package com.soe.langya.service;
 
+import com.github.pagehelper.PageHelper;
 import com.soe.langya.mapper.UserMapper;
+import com.soe.langya.pojo.Article;
+import com.soe.langya.pojo.PageSize;
 import com.soe.langya.pojo.Role;
 import com.soe.langya.pojo.User;
 import com.soe.langya.utils.InvitationCodeUtils;
@@ -26,18 +29,26 @@ public class UserService {
         if (findById != null ) {
             return 1;
         }
+
+//        //验证是否拥有邀请码
+//        if (!verify(user.getUser_please())){
+//            return 2;
+//        }
+
         //插入用户,插入之前先对密码进行加密
         user.setUser_password(MD5Utils.getDigest(user.getUser_password()));
         user.setUser_please(InvitationCodeUtils.createShareCode()); //生成随机验证码
         user.setUser_please_num(3); //默认可邀请人数为3
         user.setEnabled(true); //用户可用
         user.setUser_status(0);//设置用户为普通级别
+        user.setFreeze(1);
+        user.setFaceUrl("/default.jpg");
         long result = userMapper.save(user);
         boolean flag = (result == 1);
         if (flag) {
             return 0;
         } else {
-            return 2;
+            return 3;
         }
     }
 
@@ -94,32 +105,80 @@ public class UserService {
         Integer status = userMapper.findRolesById(user.getUser_id());
         /*
          * //用户的级别（状态）
-         * -1为账号不可用
          * 0为普通用户
          * 1为评论员
          * 2为系统管理员
          */
         ArrayList<Role> roles = new ArrayList<>();
-        if (status == -1) {
-            Role r1 = new Role(user.getUser_id(), "账户冻结");
-            roles.add(r1);
-        } else if (status == 0) {
+        if (status == 0) {
             Role r1 = new Role(user.getUser_id(), "普通用户");
             roles.add(r1);
         } else if (status == 1) {
-            Role r1 = new Role(user.getUser_id(), "普通用户");
-            Role r2 = new Role(user.getUser_id(), "评论员");
-            roles.add(r1);
+            Role r2 = new Role(user.getUser_id(), "审核员");
             roles.add(r2);
         } else if (status == 2) {
-            Role r1 = new Role(user.getUser_id(), "普通用户");
-            Role r2 = new Role(user.getUser_id(), "评论员");
             Role r3 = new Role(user.getUser_id(), "超级管理员");
-            roles.add(r1);
-            roles.add(r2);
             roles.add(r3);
         }
         user.setRoles(roles);
         return user;
     }
+
+    public User findById(Integer userId) {
+        return userMapper.findById(userId);
+    }
+
+    public Integer freeze (User user) {
+        user.setFreeze(-1);
+        user.setEnabled(false);
+        Integer res = userMapper.updateFreeze(user);
+        return res == 1 ? 0 : -1;
+    }
+
+    public Integer unFreeze(User user) {
+        user.setFreeze(1);
+        user.setEnabled(true);
+        Integer res = userMapper.updateFreeze(user);
+        return res == 1 ? 0 : -1;
+    }
+
+    public Integer update(User user) {
+        Integer res = userMapper.update(user);
+        return res == 1 ? 0 : -1;
+    }
+
+    public Integer updateStatus(User user) {
+        Integer res = userMapper.updateStatus(user);
+        return res == 1 ? 0 : -1;
+    }
+
+    public Integer deleteById(User user) {
+        Integer res = userMapper.delete(user.getUser_id());
+        return res == 1 ? 0 : -1;
+    }
+
+    public Integer updateUserFaceUrl(User user) {
+        Integer res = userMapper.updateUserFaceUrl(user);
+        return res == 1 ? 0 : -1;
+    }
+
+    private Boolean verify(String please) {
+        List<User> users = userMapper.findAll();
+        for (User user : users) {
+            if (please.equals(user.getUser_please())){
+                if (user.getUser_please_num()>0){
+                    user.setUser_please(InvitationCodeUtils.createShareCode()); //每次邀请一人后验证码更改
+                    user.setUser_please_num(user.getUser_please_num() - 1);
+                    userMapper.update(user);
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+
+
+
+
 }

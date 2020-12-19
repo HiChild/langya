@@ -11,7 +11,8 @@ public interface UserMapper {
      * to get all of users
      * @return all of users
      */
-    @Select("select * from user")
+    @Select("select * from user " +
+            "order by user_id ")
     List<User> findAll();
 
     /**
@@ -20,29 +21,32 @@ public interface UserMapper {
      * @return 1 for success ,negative or zero for fail
      */
     @Insert("insert into user" +
-            " (user_phone,user_password,user_name,user_please,user_please_num,user_status) " +
-            "values (#{user_phone},#{user_password},#{user_name},#{user_please},#{user_please_num},#{user_status})")
+            " (user_phone,user_password,user_name,user_please,user_please_num,user_status,faceUrl,email,freeze) " +
+            "values (#{user_phone},#{user_password},#{user_name},#{user_please},#{user_please_num},#{user_status},#{faceUrl},#{email},#{freeze})")
     public Integer save(User user);
 
     /**
      * delete a user by user_id
      * @param user_id a user_id you should provide
+     * @return 1 for success ,negative or zero for fail
      */
     @Delete("delete from user where user_id = #{user_id} ")
-    public void delete(@Param("user_id") Integer user_id);
+    public Integer delete(@Param("user_id") Integer user_id);
 
     /**
      * update a user's information
      * @param user all information of user
      * @return 1 for success ,negative or zero for fail
      */
-    @Update("update user set user_phone=#{user_phone}," +
+    @Update({"update user set user_phone=#{user_phone}," +
             "user_password = #{user_password}, " +
             "user_name = #{user_name}, " +
             "user_please = #{user_please}," +
             "user_please_num = #{user_please_num}, " +
-            "user_status = #{user_status} " +
-            "where user_id = #{user_id}")
+//            "user_status = #{user_status} ," +
+//            "faceUrl = #{faceUrl}," +
+            "email = #{email} " +
+            "where user_id = #{user_id}"})
     public Integer update(User user );
 
     /**
@@ -81,4 +85,26 @@ public interface UserMapper {
      */
     @Select("select user_status from user where user_id = #{user_id}")
     public Integer findRolesById(@Param("user_id") Integer user_id );
+
+    @Select("select * from user where user_please = #{user_please}")
+    public User findUserByPlease(@Param("user_please") String user_please);
+
+    @Update({"update user set " +
+            "freeze = #{freeze} " +
+            "where user_id = #{user_id}"})
+    public Integer updateFreeze(User user);
+
+    @Update({"update user set " +
+            "user_status = #{user_status} " +
+            "where user_id = #{user_id}"})
+    public Integer updateStatus(User user);
+
+    @Update({"update user set " +
+            "faceUrl = #{faceUrl} " +
+            "where user_id = #{user_id}"})
+    public Integer updateUserFaceUrl(User user);
+
+    @Select("select * from user where user_name like #{key} " +
+            "order by user_id ")
+    public List<User> findByKey(@Param("key") String key);
 }
